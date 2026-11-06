@@ -21,10 +21,9 @@
       "name": "macos",
       "source": "./",
       "strict": false,
-      "version": "0.2.0",
-      "description": "Mac maintenance: disk cleanup and CPU cooling.",
+      "version": "0.3.0",
+      "description": "Mac maintenance: find and stop CPU hogs on a hot Mac.",
       "skills": [
-        "./skills/macos/disk-cleanup",
         "./skills/macos/cpu-cooling"
       ]
     }
