@@ -14,7 +14,7 @@ The output is a per-claim keep/drop decision, backed by pass counts, and a befor
 First, find the areas yourself (step 1, discovery). Then ask one question set (`AskUserQuestion` in Claude Code, which allows at most 4 options per question):
 
 1. **Scope:** offer the 3 areas with the most doc lines, and "Other" for the rest. An area is a set of skills and agents that a `CLAUDE.md` pointer, an agent's skill list, or a shared directory ties together.
-2. **Budget:** each run costs about $0.10-0.40.
+2. **Budget:** each run costs about USD 0.10-0.40.
    - **Triage** (1 run per variant): finds candidates only, and gives no keep/drop verdict.
    - **Standard** (3 runs): the verdict table below applies.
    - **Thorough** (5 runs).
