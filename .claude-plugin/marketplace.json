@@ -1,0 +1,12 @@
+{
+  "name": "hshoja",
+  "owner": { "name": "Hamid Shoja", "url": "https://github.com/hshoja" },
+  "description": "Personal agent skills by hshoja, as a Claude Code plugin.",
+  "plugins": [
+    {
+      "name": "hshoja-skills",
+      "source": "./",
+      "description": "Personal agent skills by hshoja."
+    }
+  ]
+}

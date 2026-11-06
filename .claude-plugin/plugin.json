@@ -1,0 +1,8 @@
+{
+  "name": "hshoja-skills",
+  "version": "0.1.0",
+  "description": "Personal agent skills by hshoja.",
+  "author": { "name": "Hamid Shoja", "url": "https://github.com/hshoja" },
+  "repository": "https://github.com/hshoja/skills",
+  "skills": ["./skills/macos-disk-cleanup", "./skills/macos-cpu-cooling"]
+}
