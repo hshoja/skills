@@ -11,34 +11,36 @@ Interactive loop: find CPU hogs one round at a time, identify each one, ask the 
 
 ## The Loop
 
-1. **Measure** — run both commands and enrich into a table:
+1. **Measure** - take current CPU, not the lifetime average:
 
 ```bash
-ps -eo pid,ppid,pcpu,pmem,comm | sort -k3 -rn | head -15
+top -l 2 -o cpu -n 15 -stats pid,ppid,cpu,mem,command
 ```
+
+Use the second sample: the first one is not accurate. (`ps` %CPU is a long-term average: a process busy an hour ago can still show 30%.)
 
 Then for each PID above ~20% CPU, fetch the full command:
 ```bash
 ps -p <PID> -o pid,ppid,pcpu,pmem,command
 ```
 
-2. **Present a rich table to the user** — render as markdown before asking anything:
+2. **Present a rich table to the user** - render as markdown before asking anything:
 
 | PID | CPU% | MEM% | Name | Full Path / Command | PPID | Category | What it does |
 |-----|------|------|------|---------------------|------|----------|--------------|
 | … | … | … | … | … | … | OS daemon / App / Orphan / Security agent | one-line human description |
 
-- **Category** — classify using Identification Hints below
-- **What it does** — plain-English description (e.g. "Spotlight indexing your SSD", "Orphaned webpack watcher from a closed terminal", "Chrome renderer for a heavy tab")
+- **Category** - classify using Identification Hints below
+- **What it does** - plain-English description (e.g. "Spotlight indexing your SSD", "Orphaned webpack watcher from a closed terminal", "Chrome renderer for a heavy tab")
 - If unclear, run `lsof -p <PID> | head -20` to see what files it's touching and infer purpose
 
 3. **Ask the user per process** (AskUserQuestion), presenting what you learned. Options depend on type:
    - **Kill** - orphans, stray user processes: `kill <PID>` (escalate to `kill -9` if it survives)
-   - **Disable + kill** - launch-agent-managed daemons that respawn: `launchctl disable gui/$(id -u)/<label> && kill <PID>` (find label via `launchctl list | grep -i <name>`)
+   - **Disable + kill** - launch-agent-managed daemons that respawn: `launchctl disable gui/$(id -u)/<label> && kill <PID>` (find label via `launchctl list | grep -i <name>`). The disable stays after a reboot: tell the user the undo, `launchctl enable gui/$(id -u)/<label>`
    - **Stop via its own tooling** - apps with managed lifecycles (VMs, container runtimes, sync clients): use the app's own CLI/menu shutdown, not `kill`; check `<tool> --help` first, subcommand names vary
    - **Pause** - `kill -STOP <PID>` drops it to 0% CPU without losing its progress; `kill -CONT <PID>` resumes. Best for indexers mid-job: killing them restarts the work from scratch
    - **Leave it** - MDM/corporate-managed security agents (can't signal them - "Not privileged"), OS indexing that finishes on its own, work the user knows about
-4. **Re-measure** — re-run step 1, rebuild and re-render the table. New hogs often surface once the top one dies — queued work gets its turn.
+4. **Re-measure** - re-run step 1, rebuild and re-render the table. New hogs often surface once the top one dies: queued work gets its turn.
 5. **Repeat** until no process exceeds ~20% at idle or user is satisfied.
 
 ## Identification Hints
@@ -60,14 +62,17 @@ ps -p <PID> -o pid,ppid,pcpu,pmem,command
 
 ## Temps (optional)
 
-`sudo powermetrics --samplers smc -n 1` - needs sudo from an interactive terminal; suggest the user runs it themselves. Third-party tools (istats, osx-cpu-temp) usually aren't installed.
+- `pmset -g therm` - no sudo; shows thermal warning and CPU speed limits.
+- `sudo powermetrics --samplers thermal -n 1` - thermal pressure (Nominal, Fair, Serious, Critical). Needs sudo from an interactive terminal; suggest the user runs it themselves.
+- On Apple Silicon, `powermetrics --samplers smc` gives no temperature. Third-party tools (istats, osx-cpu-temp) usually aren't installed.
 
 ## Common Mistakes
 
-- `ps aux --sort=-%cpu` - GNU flag, fails on macOS; pipe through `sort -k2 -rn`
+- `ps aux --sort=-%cpu` - GNU flag, fails on macOS; use `top -l 2 -o cpu`, or pipe `ps aux` through `sort -k3 -rn` (%CPU is column 3)
 - Killing a launch-agent daemon without `launchctl disable` first - it respawns immediately
 - Expecting `launchctl disable`/`bootout` to stop SIP-protected OS daemons (paths under `/System/`) - bootout returns "Operation not permitted", disable doesn't prevent on-demand relaunch, and they survive `kill -9` by respawning. Only real options: wait for them to finish, or turn off the OS feature feeding them (e.g. iCloud/Photos sync settings)
 - `launchctl kill` on system services - "Not privileged"; plain `kill <PID>` works
+- Trusting one `ps` sample - its %CPU is a lifetime average, not current load
 - Assuming an idle VM costs nothing - hypervisor overhead is real
 - Guessing a tool's shutdown subcommand - check `--help`, names vary per tool
 - Acting on a process without asking the user - always confirm per process
