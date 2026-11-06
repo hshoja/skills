@@ -29,7 +29,7 @@ For docs that load in every session (`CLAUDE.md`, `AGENTS.md`), WITH/WITHOUT doe
 
 ```bash
 claude plugin marketplace add hshoja/skills
-claude plugin install hshoja-skills@hshoja
+claude plugin install agent-docs@hshoja
 ```
 
 Or install only this skill:

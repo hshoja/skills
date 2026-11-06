@@ -1,12 +1,23 @@
 {
   "name": "hshoja",
   "owner": { "name": "Hamid Shoja", "url": "https://github.com/hshoja" },
-  "description": "Personal agent skills by hshoja, as a Claude Code plugin.",
+  "description": "Personal agent skills by hshoja, one plugin per group.",
   "plugins": [
     {
-      "name": "hshoja-skills",
+      "name": "macos",
       "source": "./",
-      "description": "Personal agent skills by hshoja."
+      "strict": false,
+      "version": "0.1.0",
+      "description": "Mac maintenance: disk cleanup and CPU cooling.",
+      "skills": ["./skills/macos/disk-cleanup", "./skills/macos/cpu-cooling"]
+    },
+    {
+      "name": "agent-docs",
+      "source": "./",
+      "strict": false,
+      "version": "0.1.0",
+      "description": "Improve agent docs: AGENTS.md, CLAUDE.md, skills and subagents.",
+      "skills": ["./skills/agent-docs/audit"]
     }
   ]
 }
