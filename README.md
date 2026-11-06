@@ -4,10 +4,21 @@ Personal agent skills, grouped by topic under `skills/<group>/<skill>`.
 
 ## Install (Claude Code)
 
+All skills, as one plugin:
+
 ```bash
 claude plugin marketplace add hshoja/skills
 claude plugin install hshoja-skills@hshoja
 ```
+
+One skill only: copy its folder into `~/.claude/skills/<skill-name>`. Example for `agent-docs-audit`:
+
+```bash
+git clone --depth 1 https://github.com/hshoja/skills /tmp/hshoja-skills
+cp -r /tmp/hshoja-skills/skills/agent-docs/audit ~/.claude/skills/agent-docs-audit
+```
+
+Use the skill's folder from the list below, and its name as the target folder.
 
 ## macOS
 
@@ -16,4 +27,4 @@ claude plugin install hshoja-skills@hshoja
 
 ## Agent docs
 
-Skills to improve agent docs (AGENTS.md, CLAUDE.md, skills, subagents). Coming soon.
+- [agent-docs-audit](skills/agent-docs/audit/SKILL.md) - checks if a skill, subagent or CLAUDE.md really helps. Runs real tasks WITH and WITHOUT the docs, grades the answers, and proposes what to keep, trim, fix or delete.
