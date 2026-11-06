@@ -1,0 +1,19 @@
+name: Agent docs check
+on:
+  pull_request:
+
+jobs:
+  agent-docs:
+    name: "Agent docs: file references"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # HEAD is the PR merge commit; its first parent is the base tip, so 2 commits are enough
+          fetch-depth: 2
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Check agent docs
+        run: node tools/check-agent-docs.mjs --changed HEAD^1

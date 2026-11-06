@@ -22,6 +22,7 @@ cp -r /tmp/hshoja-skills/skills/agent-docs/audit ~/.claude/skills/agent-docs-aud
 ## Agent docs (`agent-docs` plugin)
 
 - [agent-docs-audit](skills/agent-docs/audit/SKILL.md) - checks if a skill, subagent or CLAUDE.md really helps. Runs real tasks WITH and WITHOUT the docs, grades the answers, and proposes what to keep, trim, fix or delete.
+- [agent-docs-guard](skills/agent-docs/guard/SKILL.md) - keeps agent docs in sync with the code. Installs a CI check that fails on dead file paths in docs and warns when a PR changes a file a doc names, plus a drift rule for your AI PR review prompt.
 
 ## macOS (`macos` plugin)
 

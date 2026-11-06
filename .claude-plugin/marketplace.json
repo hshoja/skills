@@ -10,10 +10,11 @@
       "name": "agent-docs",
       "source": "./",
       "strict": false,
-      "version": "0.1.0",
+      "version": "0.2.0",
       "description": "Improve agent docs: AGENTS.md, CLAUDE.md, skills and subagents.",
       "skills": [
-        "./skills/agent-docs/audit"
+        "./skills/agent-docs/audit",
+        "./skills/agent-docs/guard"
       ]
     },
     {
