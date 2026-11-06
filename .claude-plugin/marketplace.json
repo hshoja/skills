@@ -16,16 +16,6 @@
         "./skills/agent-docs/audit",
         "./skills/agent-docs/guard"
       ]
-    },
-    {
-      "name": "macos",
-      "source": "./",
-      "strict": false,
-      "version": "0.3.0",
-      "description": "Mac maintenance: find and stop CPU hogs on a hot Mac.",
-      "skills": [
-        "./skills/macos/cpu-cooling"
-      ]
     }
   ]
 }
