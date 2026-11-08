@@ -16,6 +16,16 @@
         "./skills/agent-docs/audit",
         "./skills/agent-docs/guard"
       ]
+    },
+    {
+      "name": "media",
+      "source": "./",
+      "strict": false,
+      "version": "0.1.0",
+      "description": "Audio and media: local, natural-sounding text-to-speech.",
+      "skills": [
+        "./skills/media/local-tts"
+      ]
     }
   ]
 }
